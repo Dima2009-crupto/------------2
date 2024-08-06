@@ -17,22 +17,22 @@ async def edit_or_answer(message: Message, text: str, keyboard=None, *args, **kw
        await message.answer(text=text, reply_markup=keyboard, **kwargs)
 
 
-@animal_router.message(F.text == "Список тваринок")
+@animal_router.message(F.text == "Список тварин")
 async def show_animals(message: Message, state: FSMContext):
     animals = open_files.get_animals()
     keyboard = build_animal_keyboard(animals)
     await edit_or_answer(
         message=message,
-        text="Список товарів",
+        text="Список тварин",
         keyboard=keyboard
     )
 
 
 @animal_router.callback_query(F.data.startswith("animal_"))
 async def animal_actions(call_back: CallbackQuery, state: FSMContext):
-    animall_index = int(call_back.data.split("_")[-1])
-    animal = open_files.get_animals(animall_index)
-    keyboard = build_animal_actions_keyboard(animall_index)
+    animal_index = int(call_back.data.split("_")[-1])
+    animal = open_files.get_animals(animal_index)
+    keyboard = build_animal_actions_keyboard(animal_index)
     await edit_or_answer(
         message=call_back.message,
         text=animal,
@@ -76,7 +76,7 @@ async def add_animals(message: Message, state: FSMContext):
     await state.set_state(AnimalForm.name)
     await edit_or_answer(
         message=message,
-        text="Введіть ім'я товару"
+        text="Введіть ім'я тваринки"
     )
 
 
@@ -84,7 +84,7 @@ async def add_animals(message: Message, state: FSMContext):
 async def add_animal_name(message: Message, state: FSMContext):
     data = await state.update_data(name=message.text)
     await state.clear()
-    msg = action_animals.add_animals(data.get("name"))
+    msg = action_animals.add_animal(data.get("name"))
     await edit_or_answer(
         message=message,
         text=msg
