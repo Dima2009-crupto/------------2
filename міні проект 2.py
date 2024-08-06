@@ -8,7 +8,7 @@ from aiogram.client.default import DefaultBotProperties
 
 from app.log.log import get_log
 from app.routers.start import start_router
-from app.routers.animal import animal_router
+from app.routers.animals import animal_router
 from app.routers.reviews import review_router
 
 # Завантажимо дані середовища з файлу .env(За замовчуванням)
