@@ -31,7 +31,7 @@ async def show_animals(message: Message, state: FSMContext):
 @animal_router.callback_query(F.data.startswith("animal_"))
 async def animal_actions(call_back: CallbackQuery, state: FSMContext):
     animal_index = int(call_back.data.split("_")[-1])
-    animal = open_files.get_animals(animal_index)
+    animal = open_files.get_animal(animal_index)
     keyboard = build_animal_actions_keyboard(animal_index)
     await edit_or_answer(
         message=call_back.message,
@@ -52,20 +52,20 @@ async def remove_animal(call_back: CallbackQuery, state: FSMContext):
 
 @animal_router.callback_query(F.data.startswith("cured_animal_"))
 async def cured_animal(call_back: CallbackQuery, state: FSMContext):
-    animall_index = int(call_back.data.split("_")[-1])
-    msg = action_animals.cured_animal(animall_index)
+    animal_index = int(call_back.data.split("_")[-1])
+    msg = action_animals.cured_animal(animal_index)
     await edit_or_answer(
         message=call_back.message,
         text=msg
     )
 
 
-@animal_router.message(F.text == "Показати список вилікуваних тварин")
+@animal_router.message(F.text == "Показати список вилікуваних тваринок")
 async def shoe_cured_animal(message: Message, state: FSMContext):
     cured_animal = open_files.get_cured_animals()
     msg = ""
-    for i, product in enumerate(cured_animal, start=1):
-        msg += f"{i}. {product}\n"
+    for i, animal in enumerate(cured_animal, start=1):
+        msg += f"{i}. {animal}\n"
 
     await message.answer(text=msg)
 

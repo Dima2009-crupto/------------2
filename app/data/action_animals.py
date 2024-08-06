@@ -3,9 +3,9 @@ import json
 from app.data import list_files, open_files
 
 
-def remove_animal(animall_index: int) -> str:
+def remove_animal(animal_index: int) -> str:
     animals = open_files.get_animals()
-    animal = animals.pop(animall_index)
+    animal = animals.pop(animal_index)
 
     with open(list_files.ANIMALS, "w", encoding="utf-8") as file:
         json.dump(animals, file)
@@ -14,15 +14,15 @@ def remove_animal(animall_index: int) -> str:
     return msg
 
 
-def cured_animal(animall_index: int) -> str:
-    animls = open_files.get_animals()
-    animal = animal.pop(animall_index)
+def cured_animal(animal_index: int) -> str:
+    animals = open_files.get_animals()
+    animal = animals.pop(animal_index)
 
     cured_animals = open_files.get_cured_animals()
     cured_animals.append(animal)
 
     with open(list_files.ANIMALS, "w", encoding="utf-8") as file:
-        json.dump(animal, file)
+        json.dump(animals, file)
 
     with open(list_files.CURED_ANIMALS, "w", encoding="utf-8") as file:
         json.dump(cured_animals, file)
